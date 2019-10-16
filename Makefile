@@ -6,7 +6,10 @@ bump-%:
 	echo "new version: $${SEMVER_NEW_TAG}" && \
 	cd js && npm version $${SEMVER_NEW_TAG} && \
 	git commit -am "[$(*)] Bump version to $${SEMVER_NEW_TAG}" && \
-	git tag $${SEMVER_NEW_TAG}
+	git tag $${SEMVER_NEW_TAG} && \
+	$(eval VERSION := $(shell git tag | sort -r --version-sort | head -n1))
+
+
 
 all: build bump-patch publish
 build: build-go build-js
